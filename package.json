@@ -1,0 +1,30 @@
+{
+  "name": "tetris",
+  "version": "1.0.0",
+  "description": "A tetris clone in JavaScript",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "webpack-dev-server --content-base ./public --host 0.0.0.0",
+    "build": "webpack -p",
+    "eslint:fix": "eslint --fix --ext .js ./src"
+  },
+  "keywords": [
+    "tetris",
+    "game"
+  ],
+  "author": "Sander Ledegen",
+  "license": "MIT",
+  "dependencies": {
+    "hammerjs": "^2.0.8"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.11.0",
+    "webpack": "^4.8.1",
+    "webpack-cli": "^2.1.3",
+    "webpack-dev-server": "^3.1.4",
+    "webpack-serve": "^0.3.2"
+  }
+}

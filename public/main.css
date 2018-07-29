@@ -1,0 +1,50 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100%;
+}
+
+#canvas {
+  height: 100%;
+  display: block;
+}
+
+#next-piece-canvas {
+  display: block;
+}
+
+.container {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  align-content: stretch;
+}
+
+.flex-item {
+  flex: 0 0 auto;
+}
+
+@media screen and (orientation: portrait) {
+  #left-side {
+    height: 75vh;
+  } 
+}
+
+@media screen and (orientation: landscape) {
+  #left-side {
+    height: 100vh;
+  }
+  /* #left-side {
+    width: 100vw;
+    height: 100vh;
+    max-width: calc(10 / 22 * 100vh);
+    max-height: calc(22 / 10 * 100vw);
+  } */
+}
+
+#right-side {
+  font-family: 'Orbitron', sans-serif;
+}

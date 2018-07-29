@@ -1,0 +1,11 @@
+{
+  "extends": "airbnb-base",
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "semi": ["warn", "never"],
+    "max-len": ["warn"],
+    "no-mixed-operators": ["error", { "allowSamePrecedence": true }]
+  }
+}
