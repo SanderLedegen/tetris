@@ -2,45 +2,14 @@ import { BOARD_HEIGHT, BOARD_WIDTH } from '../constants'
 
 export default class CanvasRenderer {
   constructor() {
-    const leftSide = document.createElement('div')
-    leftSide.setAttribute('id', 'left-side')
-
-    const rightSide = document.createElement('div')
-    rightSide.setAttribute('id', 'right-side')
-    rightSide.classList.add('flex-item')
-
-    this.canvas = document.createElement('canvas')
-    this.canvas.setAttribute('id', 'canvas')
-
-    this.nextPieceCanvas = document.createElement('canvas')
-    this.nextPieceCanvas.setAttribute('id', 'next-piece-canvas')
-
-    const spanScoreLabel = document.createElement('span')
-    spanScoreLabel.innerText = 'Score: '
-
-    const spanLevelLabel = document.createElement('span')
-    spanLevelLabel.innerText = 'Level: '
-
-    this.spanScoreValue = document.createElement('span')
-    this.spanScoreValue.setAttribute('id', 'score')
-
-    this.spanLevelValue = document.createElement('span')
-    this.spanLevelValue.setAttribute('id', 'level')
-
-    const container = document.querySelector('.container')
-
-    leftSide.appendChild(this.canvas)
-    rightSide.appendChild(this.nextPieceCanvas)
-    rightSide.appendChild(spanScoreLabel)
-    rightSide.appendChild(this.spanScoreValue)
-    rightSide.appendChild(document.createElement('br'))
-    rightSide.appendChild(spanLevelLabel)
-    rightSide.appendChild(this.spanLevelValue)
-    container.appendChild(leftSide)
-    container.appendChild(rightSide)
-
+    this.canvas = document.querySelector('#canvas')
     this.ctx = this.canvas.getContext('2d')
+
+    this.nextPieceCanvas = document.querySelector('#next-piece-canvas')
     this.ctxNextPiece = this.nextPieceCanvas.getContext('2d')
+
+    this.spanScoreValue = document.querySelector('#score')
+    this.spanLevelValue = document.querySelector('#level')
 
     this.resize = this.resize.bind(this)
 
@@ -67,7 +36,7 @@ export default class CanvasRenderer {
   }
 
   resize() {
-    const canvasHeight = document.querySelector('#canvas').offsetHeight
+    const canvasHeight = this.canvas.offsetHeight
 
     // Adjust the ratio depending on the canvas' height, which was determined by CSS.
     this.canvas.height = canvasHeight

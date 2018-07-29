@@ -12,7 +12,16 @@
 </head>
 
 <body>
-  <div class="container"></div>
+  <div class="container canvas-renderer">
+    <div id="left-side" class="flex-item">
+      <canvas id="canvas"></canvas>
+    </div>
+    <div id="right-side" class="flex-item">
+      <canvas id="next-piece-canvas"></canvas>
+      <p>Score: <span id="score"></span></p>
+      <p>Level: <span id="level"></span></p>
+    </div>
+  </div>
   <script src="./assets/bundle.js"></script>
 </body>
 
