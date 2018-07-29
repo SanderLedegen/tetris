@@ -8,12 +8,6 @@ export default class Game {
 
     this.board = initTwoDimArray(BOARD_HEIGHT, BOARD_WIDTH, 0)
 
-    // this.board[3] = [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
-    // this.board[4] = [0, 0, 0, 1, 0, 0, 0, 0, 0, 0]
-
-    // this.board[20] = [1, 1, 1, 1, 0, 1, 1, 1, 1, 1]
-    // this.board[21] = [1, 1, 1, 1, 0, 1, 1, 1, 1, 1]
-
     this.piece = null
     this.pieceIndex = null
     this.insets = {}
@@ -105,13 +99,13 @@ export default class Game {
     // Is there nothing on the line below obstructing the block to continue falling?
     let canMoveDown = true
     for (let row = this.piece.length - this.insets.bottom - 1; row >= this.insets.top && canMoveDown; row -= 1) {
-      for (let col = 0; col < this.piece[row].length && canMoveDown; col += 1) {
+      for (let col = this.insets.left; col < this.piece[row].length && canMoveDown; col += 1) {
         const boardCell = this.board[this.y + row + 1][this.x + col]
         const pieceCell = this.piece[row][col]
 
         // So, neither the next spot on the board nor the current cell in the piece is empty.
         // That's only OK if that next spot contains a part of the piece from before.
-        if ((boardCell !== 0 && pieceCell !== 0)) {
+        if (boardCell !== 0 && pieceCell !== 0) {
           // Oh, it's the piece's last row or the next spot isn't "ours"? Hold it right there!
           if ((row >= this.piece.length - 1) || !this.piece[row + 1][col]) {
             canMoveDown = false
@@ -150,16 +144,18 @@ export default class Game {
       return false
     }
 
-    // TODO: Bug, ge kunt al bestaande pieces "kapot trekken". Er is ergens iets mis met de
-    // detection.
     // Is there nothing to the left of the piece obstructing it to move there?
     let canMoveLeft = true
-    for (let row = 0; row < this.piece.length && canMoveLeft; row += 1) {
-      const boardCell = this.board[this.y + row][this.x + this.insets.left - 1]
-      const pieceCell = this.piece[row][this.insets.left]
+    for (let col = this.insets.left; col < this.piece.length && canMoveLeft; col += 1) {
+      for (let row = 0; row < this.piece.length && canMoveLeft; row += 1) {
+        const boardCell = this.board[this.y + row][this.x + col - 1]
+        const pieceCell = this.piece[row][col]
 
-      if (boardCell !== 0 && pieceCell !== 0) {
-        canMoveLeft = false
+        if (boardCell !== 0 && pieceCell !== 0) {
+          if ((col === 0) || !this.piece[row][col - 1]) {
+            canMoveLeft = false
+          }
+        }
       }
     }
 
@@ -194,17 +190,18 @@ export default class Game {
       return false
     }
 
-    // TODO: Bug, ge kunt al bestaande pieces "kapot trekken". Er is ergens iets mis met de
-    // detection.
     // Is there nothing to the right of the piece obstructing it to move there?
     let canMoveRight = true
-    for (let row = 0; row < this.piece.length && canMoveRight; row += 1) {
-      const colLength = this.piece[row].length
-      const boardCell = this.board[this.y + row][this.x + colLength - this.insets.right]
-      const pieceCell = this.piece[row][colLength - this.insets.right - 1]
+    for (let col = this.piece.length - this.insets.right - 1; col >= this.insets.left && canMoveRight; col -= 1) {
+      for (let row = 0; row < this.piece.length && canMoveRight; row += 1) {
+        const boardCell = this.board[this.y + row][this.x + col + 1]
+        const pieceCell = this.piece[row][col]
 
-      if (boardCell !== 0 && pieceCell !== 0) {
-        canMoveRight = false
+        if (boardCell !== 0 && pieceCell !== 0) {
+          if ((col >= this.piece.length - 1) || !this.piece[row][col + 1]) {
+            canMoveRight = false
+          }
+        }
       }
     }
 
