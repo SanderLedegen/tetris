@@ -8,7 +8,7 @@ possible to play it on both desktops and mobiles. Should be fun to kill some tim
 
 ## How to play
 On devices that have a keyboard you can use the arrow keys and spacebar. On touchscreen devices, you can go along
-by swiping, tapping and pressing the screen.
+by swiping, tapping and pressing the screen. 
 
 ### Keyboard
 `Left/Right` - moves a piece left and right

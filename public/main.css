@@ -5,6 +5,10 @@ html, body {
   min-height: 100%;
 }
 
+p {
+  margin: 15px 0 5px 0;
+}
+
 #canvas {
   height: 100%;
   display: block;

@@ -51,11 +51,15 @@ export default class Game {
       this.moveRight()
     } else if (keysPressed.down && this.canMoveDown()) {
       this.moveDown()
+      this.meta.score += 1
+      this.renderer.setMeta(this.meta)
     } else if (keysPressed.up && this.canRotate()) {
       this.rotate()
     } else if (keysPressed.spacebar) {
       while (this.canMoveDown()) {
         this.moveDown()
+        this.meta.score += 2
+        this.renderer.setMeta(this.meta)
       }
     }
 
@@ -283,7 +287,7 @@ export default class Game {
 
   clearPossibleLines() {
     if (!this.canMoveDown()) {
-      let removedLine = false
+      let numOfClearedLines = 0
 
       for (let row = this.board.length - 1; row >= 0; row -= 1) {
         const fullLine = this.board[row].every(cell => cell !== 0)
@@ -294,17 +298,41 @@ export default class Game {
             ...this.board.slice(row + 1),
           ]
 
-          row = this.board.length
+          numOfClearedLines += 1
 
-          this.meta.score += 20
-          removedLine = true
+          row = this.board.length
 
           this.renderer.setBoard(this.board)
           this.renderer.setMeta(this.meta)
         }
       }
 
-      if (removedLine) {
+      if (numOfClearedLines) {
+        let score = 0
+
+        switch (numOfClearedLines) {
+          case 1:
+            score = 40 * this.meta.level
+            break
+
+          case 2:
+            score = 100 * this.meta.level
+            break
+
+          case 3:
+            score = 300 * this.meta.level
+            break
+
+          case 4:
+            score = 1200 * this.meta.level
+            break
+
+          default:
+            console.warn('So you cleared more than 4 lines, huh? 🤔')
+        }
+
+        this.meta.score += score
+        this.renderer.setMeta(this.meta)
         this.generateNewPiece()
       }
     }
