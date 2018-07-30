@@ -1,6 +1,5 @@
 export const BOARD_WIDTH = 10
 export const BOARD_HEIGHT = 22
-export const BLOCK_FALL_TIME = 800
 export const SHAPES = [
   [ // T-shape
     [0, 1, 0],

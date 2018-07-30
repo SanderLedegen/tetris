@@ -3,8 +3,9 @@
 ## Description
 A JavaScript tetris clone of which there already exist a gazillion. The only difference is that I made this one.
 
-I tried to keep close to the original colours, scoring system and board dimensions while making it
-possible to play it on both desktops and mobiles. Should be fun to kill some time on the toilet 💩
+I tried to keep close to the original colours, scoring system, the 7-bag random generator and board
+dimensions while making it possible to play it on both desktops and mobiles. Should be fun to kill
+some time on the toilet 💩
 
 ## How to play
 On devices that have a keyboard you can use the arrow keys and spacebar. On touchscreen devices, you can go along

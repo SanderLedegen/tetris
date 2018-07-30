@@ -1,4 +1,4 @@
-import { BOARD_WIDTH, BOARD_HEIGHT, BLOCK_FALL_TIME, SHAPES } from './constants'
+import { BOARD_WIDTH, BOARD_HEIGHT, SHAPES } from './constants'
 import { shuffle, initTwoDimArray } from './utils'
 
 export default class Game {
@@ -17,7 +17,9 @@ export default class Game {
     this.meta = {
       score: 0,
       level: 1,
+      clearedLines: 0,
     }
+    this.blockFallTime = this.getBlockFallTime()
     this.previousTimestamp = null
 
     this.renderer.setBoard(this.board)
@@ -51,8 +53,6 @@ export default class Game {
       this.moveRight()
     } else if (keysPressed.down && this.canMoveDown()) {
       this.moveDown()
-      this.meta.score += 1
-      this.renderer.setMeta(this.meta)
     } else if (keysPressed.up && this.canRotate()) {
       this.rotate()
     } else if (keysPressed.spacebar) {
@@ -74,7 +74,7 @@ export default class Game {
       }
     }
 
-    if (delta > BLOCK_FALL_TIME) {
+    if (delta > this.blockFallTime) {
       if (this.canMoveDown()) {
         this.moveDown()
       } else {
@@ -92,7 +92,7 @@ export default class Game {
 
   /**
    * Checks whether the current piece can be moved one place down if not obstructed.
-   * @returns { boolean } returns true when there's no obstruction, false otherwise.
+   * @returns {boolean} returns true when there's no obstruction, false otherwise.
    */
   canMoveDown() {
     // Check whether the block is at the bottom of the board
@@ -187,7 +187,7 @@ export default class Game {
 
   /**
    * Checks whether the current piece can be moved one place to the right if not obstructed.
-   * @returns { boolean } returns true when there's no obstruction, false otherwise.
+   * @returns {boolean} returns true when there's no obstruction, false otherwise.
    */
   canMoveRight() {
     if (this.x + this.piece.length - this.insets.right >= BOARD_WIDTH) {
@@ -303,7 +303,6 @@ export default class Game {
           row = this.board.length
 
           this.renderer.setBoard(this.board)
-          this.renderer.setMeta(this.meta)
         }
       }
 
@@ -328,11 +327,15 @@ export default class Game {
             break
 
           default:
-            console.warn('So you cleared more than 4 lines, huh? 🤔')
+            console.warn('So you cleared more than 4 lines in one go, huh? 🤔')
         }
 
         this.meta.score += score
+        this.meta.clearedLines += numOfClearedLines
+        this.meta.level = Math.floor(this.meta.clearedLines / 10) + 1
         this.renderer.setMeta(this.meta)
+
+        this.blockFallTime = this.getBlockFallTime()
         this.generateNewPiece()
       }
     }
@@ -381,6 +384,15 @@ export default class Game {
     return insets
   }
 
+  /**
+   * Calculates and returns the interval between each gravity drop. The formula is based on the one
+   * described here: http://tetris.wikia.com/wiki/Tetris_Worlds#Gravity
+   * @returns {number} the interval in milliseconds.
+   */
+  getBlockFallTime() {
+    return ((0.8 - ((this.meta.level - 1) * 0.007)) ** (this.meta.level - 1)) * 1000
+  }
+
   loop(timestamp) {
     this.previousTimestamp = this.previousTimestamp || timestamp
 
@@ -389,7 +401,7 @@ export default class Game {
     this.update(delta)
     this.renderer.render()
 
-    if (delta > BLOCK_FALL_TIME) {
+    if (delta > this.blockFallTime) {
       this.previousTimestamp = timestamp
     }
 
