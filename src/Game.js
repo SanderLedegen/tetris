@@ -19,7 +19,7 @@ export default class Game {
       level: 1,
       clearedLines: 0,
     }
-    this.blockFallTime = this.getBlockFallTime()
+    this.blockFallTime = this.getBlockDropInterval()
     this.previousTimestamp = null
 
     this.renderer.setBoard(this.board)
@@ -231,9 +231,24 @@ export default class Game {
   }
 
   canRotate() {
-    // TODO: Implement this method
     const rotatedPiece = this.getNextRotationForCurrentPiece()
-    return !!rotatedPiece
+
+    let canRotate = true
+    for (let row = 0; row < rotatedPiece.length && canRotate; row += 1) {
+      for (let col = 0; col < rotatedPiece[row].length && canRotate; col += 1) {
+        const boardCell = this.board[this.y + row][this.x + col]
+        const pieceCell = rotatedPiece[row][col]
+
+        if (boardCell !== 0 && pieceCell !== 0) {
+          // Make sure it isn't the rotated piece itself that's "blocking".
+          if (!this.piece[row][col]) {
+            canRotate = false
+          }
+        }
+      }
+    }
+
+    return canRotate
   }
 
   rotate() {
@@ -335,7 +350,7 @@ export default class Game {
         this.meta.level = Math.floor(this.meta.clearedLines / 10) + 1
         this.renderer.setMeta(this.meta)
 
-        this.blockFallTime = this.getBlockFallTime()
+        this.blockFallTime = this.getBlockDropInterval()
         this.generateNewPiece()
       }
     }
@@ -389,7 +404,7 @@ export default class Game {
    * described here: http://tetris.wikia.com/wiki/Tetris_Worlds#Gravity
    * @returns {number} the interval in milliseconds.
    */
-  getBlockFallTime() {
+  getBlockDropInterval() {
     return ((0.8 - ((this.meta.level - 1) * 0.007)) ** (this.meta.level - 1)) * 1000
   }
 

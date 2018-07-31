@@ -1,7 +1,8 @@
 # Tetris
 
 ## Description
-A JavaScript tetris clone of which there already exist a gazillion. The only difference is that I made this one.
+A JavaScript tetris clone of which there already exist a gazillion. The only difference is that I
+made this one 🙌🏻
 
 I tried to keep close to the original colours, scoring system, the 7-bag random generator and board
 dimensions while making it possible to play it on both desktops and mobiles. Should be fun to kill
@@ -30,7 +31,7 @@ by swiping, tapping and pressing the screen.
 `(Longer) press` - hard drop
 
 ## Known limitations/bugs
-- You can always rotate a piece even when it should not be possible.
+- Bug that might occur when you try to "slide" a piece under an existing one on the last row.
 
 ## Future plans
 - Implement correct scoring.
